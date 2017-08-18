@@ -1,0 +1,10 @@
+{
+  "solution": {
+    "name": "call-azure-functions-modern-page-client-side-solution",
+    "id": "8ef6c094-bfeb-4f2a-b22b-0fc1939ce4a7",
+    "version": "1.0.0.0"
+  },
+  "paths": {
+    "zippedPackage": "solution/call-azure-functions-modern-page.sppkg"
+  }
+}

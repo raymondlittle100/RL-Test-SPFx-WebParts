@@ -1,0 +1,13 @@
+{
+  "entries": [
+    {
+      "entry": "./lib/webparts/createModernPage/CreateModernPageWebPart.js",
+      "manifest": "./src/webparts/createModernPage/CreateModernPageWebPart.manifest.json",
+      "outputPath": "./dist/create-modern-page.bundle.js"
+    }
+  ],
+  "externals": {},
+  "localizedResources": {
+    "createModernPageStrings": "webparts/createModernPage/loc/{locale}.js"
+  }
+}

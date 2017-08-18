@@ -1,0 +1,6 @@
+{
+  "workingDir": "./temp/deploy/",
+  "account": "<!-- STORAGE ACCOUNT NAME -->",
+  "container": "call-azure-functions-modern-page",
+  "accessKey": "<!-- ACCESS KEY -->"
+}
