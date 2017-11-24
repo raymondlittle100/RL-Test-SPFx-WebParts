@@ -1,0 +1,18 @@
+{
+  "$schema": "https://dev.office.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "sub-grid-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/subGrid/SubGridWebPart.js",
+          "manifest": "./src/webparts/subGrid/SubGridWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "SubGridWebPartStrings": "lib/webparts/subGrid/loc/{locale}.js"
+  }
+}

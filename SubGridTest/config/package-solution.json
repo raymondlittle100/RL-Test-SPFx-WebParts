@@ -1,0 +1,12 @@
+{
+  "$schema": "https://dev.office.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "sub-grid-test-client-side-solution",
+    "id": "27c25df0-f36f-4135-b174-bd66fbfc8a70",
+    "version": "1.0.0.0",
+    "skipFeatureDeployment": true
+  },
+  "paths": {
+    "zippedPackage": "solution/sub-grid-test.sppkg"
+  }
+}
