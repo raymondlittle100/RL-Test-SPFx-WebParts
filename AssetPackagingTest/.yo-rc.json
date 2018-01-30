@@ -1,0 +1,8 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "version": "1.4.0",
+    "libraryName": "asset-packaging-test",
+    "libraryId": "1bda959d-1dd9-4280-b332-d4eec471e0d9",
+    "environment": "spo"
+  }
+}

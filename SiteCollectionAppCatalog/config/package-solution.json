@@ -1,0 +1,12 @@
+{
+  "$schema": "https://dev.office.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "site-collection-app-catalog-client-side-solution",
+    "id": "908a97b6-e063-409b-8843-e8603bbfcbce",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true
+  },
+  "paths": {
+    "zippedPackage": "solution/site-collection-app-catalog.sppkg"
+  }
+}

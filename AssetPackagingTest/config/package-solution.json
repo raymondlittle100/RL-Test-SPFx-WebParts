@@ -1,0 +1,13 @@
+{
+  "$schema": "https://dev.office.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "asset-packaging-test-client-side-solution",
+    "id": "1bda959d-1dd9-4280-b332-d4eec471e0d9",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true
+  },
+  "paths": {
+    "zippedPackage": "solution/asset-packaging-test.sppkg"
+  }
+}

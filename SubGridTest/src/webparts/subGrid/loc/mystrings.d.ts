@@ -1,7 +1,8 @@
 declare interface ISubGridWebPartStrings {
   PropertyPaneDescription: string;
   BasicGroupName: string;
-  DescriptionFieldLabel: string;
+  ProjectListNameFieldLabel: string;
+  DateFormatFieldLabel: string;  
 }
 
 declare module 'SubGridWebPartStrings' {

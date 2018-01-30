@@ -9,11 +9,11 @@ import {
 
 import * as strings from 'SubGridWebPartStrings';
 import SubGrid from './components/SubGrid';
-import { ISubGridProps } from './components/ISubGridProps';
+// import ReactListSubGrid from './components/ReactListSubGrid';
 
-export interface ISubGridWebPartProps {
-  description: string;
-}
+import { ISubGridProps, ISubGridWebPartProps } from './InterfaceFiles';
+
+
 
 export default class SubGridWebPart extends BaseClientSideWebPart<ISubGridWebPartProps> {
 
@@ -21,7 +21,9 @@ export default class SubGridWebPart extends BaseClientSideWebPart<ISubGridWebPar
     const element: React.ReactElement<ISubGridProps > = React.createElement(
       SubGrid,
       {
-        description: this.properties.description
+        webUrl: this.context.pageContext.web.absoluteUrl,
+        projectListName: this.properties.projectListName,
+        dateFormat:this.properties.dateFormat
       }
     );
 
@@ -43,9 +45,12 @@ export default class SubGridWebPart extends BaseClientSideWebPart<ISubGridWebPar
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyPaneTextField('description', {
-                  label: strings.DescriptionFieldLabel
-                })
+                PropertyPaneTextField('projectListName', {
+                  label: strings.ProjectListNameFieldLabel
+                }),
+                PropertyPaneTextField('dateFormat', {
+                  label: strings.DateFormatFieldLabel
+                }),
               ]
             }
           ]

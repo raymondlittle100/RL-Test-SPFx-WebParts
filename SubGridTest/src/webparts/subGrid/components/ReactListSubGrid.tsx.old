@@ -6,11 +6,18 @@ import { escape } from '@microsoft/sp-lodash-subset';
 import * as pnp from 'sp-pnp-js';
 import * as moment from 'moment';
 
+import { getRTL } from 'office-ui-fabric-react/lib/Utilities';
+import { FocusZone, FocusZoneDirection } from 'office-ui-fabric-react/lib/FocusZone';
+import { TextField } from 'office-ui-fabric-react/lib/TextField';
+import { Image, ImageFit } from 'office-ui-fabric-react/lib/Image';
+import { Icon } from 'office-ui-fabric-react/lib/Icon';
+import { List } from 'office-ui-fabric-react/lib/List';
+
 // Import React Table
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 
-export default class SubGrid extends React.Component<ISubGridProps, IProjectStepsState> {
+export default class ReactListSubGrid extends React.Component<ISubGridProps, IProjectStepsState> {
 
   //declare private variables
   private web;
@@ -24,12 +31,13 @@ export default class SubGrid extends React.Component<ISubGridProps, IProjectStep
     this.projectStepsList = this.web.lists.getByTitle(this.props.projectListName);
     
     this.state = {
-      steps: [],
+      allSteps: [],
       loading:true,
-      error:""
+      error:"",
+      filterText:""
     };
 
-    this.renderEditable = this.renderEditable.bind(this);
+    this._onFilterChanged = this._onFilterChanged.bind(this);    
     this.getProjectSteps = this.getProjectSteps.bind(this);
   }
 
@@ -83,7 +91,7 @@ export default class SubGrid extends React.Component<ISubGridProps, IProjectStep
             });        
           });          
         }
-        this.setState({ steps : steps, loading:false });
+        this.setState({ allSteps : steps, loading:false });
       }).catch(error=>{        
         console.log("Query error with getsteps: ", error.message);    
         this.setState({ error: error.message });            
@@ -95,21 +103,40 @@ export default class SubGrid extends React.Component<ISubGridProps, IProjectStep
     }
   }
 
-  renderEditable(cellInfo) {
+  private _onFilterChanged(text: string) {
+    let filteredItems:IStepState[] = this.state.allSteps;
+    if(text != "")
+    {
+      filteredItems = filteredItems.filter((step) =>
+        step.title.trim().toLowerCase().indexOf(text.toLowerCase()) >= 0);
+    }
+
+    this.setState({
+      filterText: text,
+      filteredSteps:filteredItems
+    });
+  }
+
+  private _onRenderCell(item: any, index: number | undefined): JSX.Element {
     return (
-      <div
-        style={{ backgroundColor: "#fafafa" }}
-        contentEditable
-        suppressContentEditableWarning
-        onBlur={e => {
-          const data = [...this.state.steps];
-          data[cellInfo.index][cellInfo.column.id] = e.currentTarget.innerHTML;
-          this.setState({ steps: data });
-        }}
-        dangerouslySetInnerHTML={{
-          __html: this.state.steps[cellInfo.index][cellInfo.column.id]
-        }}
-      />
+      <div className='ms-ListBasicExample-itemCell' data-is-focusable={ true }>
+        <Image
+          className='ms-ListBasicExample-itemImage'
+          src={ item.thumbnail }
+          width={ 50 }
+          height={ 50 }
+          imageFit={ ImageFit.cover }
+        />
+        <div className='ms-ListBasicExample-itemContent'>
+          <div className='ms-ListBasicExample-itemName'>{ item.title }</div>
+          <div className='ms-ListBasicExample-itemIndex'>{ `Item ${index}` }</div>
+          <div className='ms-ListBasicExample-itemDesc'>{ item.title }</div>
+        </div>
+        <Icon
+          className='ms-ListBasicExample-chevron'
+          iconName={ getRTL() ? 'ChevronLeft' : 'ChevronRight' }
+        />
+      </div>
     );
   }
 
@@ -120,61 +147,18 @@ export default class SubGrid extends React.Component<ISubGridProps, IProjectStep
     }
     else
     {
+      const items = this.state.filterText == "" ? this.state.allSteps:this.state.filteredSteps;
+      
+      let resultCountText = items.length === this.state.allSteps.length ? '' : ` (${items.length} of ${this.state.allSteps.length} shown)`;
+      
       return (
-        <ReactTable
-        data={this.state.steps}
-        loading={this.state.loading}
-        columns={[
-          {          
-            columns: [
-              {
-                Header: "Title",
-                accessor: "title",
-                Cell: this.renderEditable,
-                minWidth:150,
-                maxWidth:250,
-                resizable:true
-              },
-              {
-                Header: "Grouping",
-                accessor: "grouping",          
-                minWidth:150,
-                maxWidth:250,
-                resizable:true,
-                headerStyle:{"text-align":"left"},
-                headerClassName:"balls"
-              },
-              {
-                Header: "Start Date",
-                accessor: "startDate",
-                resizable:false,
-                maxWidth:110
-              },
-              {
-                Header: "End Date",
-                accessor: "endDate",  
-                resizable:false,
-                maxWidth:110          
-              },
-              {
-                Header: "Effort",
-                accessor: "effort",  
-                Cell: this.renderEditable,
-                resizable:false,
-                maxWidth:70       
-              }
-            ]
-          }
-        ]}
-        sortable={false}
-        filterable={false}
-        resizable={true}
-        noDataText="No steps could be found"
-        { ...( this.state.steps.length <40 && {minRows: this.state.steps.length+1})}                
-        pageSize={40}        
-        className="-striped -highlight test"
-        showPageSizeOptions={false}            
-      />  
+        <FocusZone direction={ FocusZoneDirection.vertical }>
+        <TextField label={ 'Filter by name' + resultCountText } onBeforeChange={ this._onFilterChanged } />
+        <List
+          items={ items }
+          onRenderCell={ this._onRenderCell }
+        />
+      </FocusZone>
       );
     }
   }
