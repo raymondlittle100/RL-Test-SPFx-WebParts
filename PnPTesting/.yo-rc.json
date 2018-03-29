@@ -1,0 +1,8 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "version": "1.4.1",
+    "libraryName": "pn-p-testing",
+    "libraryId": "42d615e9-9702-4b1e-82b4-4041c28cc71e",
+    "environment": "spo"
+  }
+}
